@@ -100,16 +100,12 @@ for rowChannel = 1:height
     end
     
     if ( isempty(binaryMessage) ) %2nd break when at end
-        break;
+        disp(rowChannel);
+        disp(
+            break;
     end
 end
 
 % placing them back together
 newImage = zeros(height, width, testing);
 newImage(:,:,1) = R;
-newImage(:,:,2) = G;
-newImage(:,:,3) = B;
-newImage = uint8(newImage); %converting back to 8 bits per px so we can display
-
-imshow(newImage);
-
