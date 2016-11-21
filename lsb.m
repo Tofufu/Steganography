@@ -52,6 +52,15 @@
 % to test str(bin2dec('10001000')) <-- gives back the ascii character
 encodingMessage = input('What is your message?: ', 's');
 binaryMessage = dec2bin(encodingMessage, 8); %min 8 bits
+%We have to make the message into 1 long row character array (flatten the
+%matrix) because each character = 1 row from dec2bin()
+% (:) flattens row wise so have to transpose first
+%   ex: testing = [1 2 3; 4 5 6]
+%                   = 1 2 3
+%                     4 5 6
+%         testing(:) = 1;4;2;5;3;6;
+binaryMessageTranspose = binaryMessage';
+binaryMessage = (binaryMessageTranspose(:))';
 
 % TODO: have to do math to limit the amount of characters depending on the
 % size of the image
@@ -72,7 +81,8 @@ B = originalImage(:, :, 3);
 
 for rowChannel = 1:height
     for columnChannel = 1:width %horizontal replacement
-        %Could probably put these in different functions :P
+        %Could probably put these in different functions :P but just so
+        %everythings located here I'm just repeating it over and over
         binaryR = dec2bin( R(rowChannel, columnChannel) );
         binaryR(7:8) = binaryMessage(1:2); %replacing 2 bits
         R(rowChannel, columnChannel) = bin2dec(binaryR); %placing it back in
@@ -111,5 +121,16 @@ newImage(:,:,2) = G;
 newImage(:,:,3) = B;
 newImage = uint8(newImage); %converting back to 8 bits per px so we can display
 
-imshow(newImage);
+%looks like the image is exactly in pixel form the same when i replace it,
+%something is going on with writing over it
+
+%imshow(newImage);
+
+% I FOUND OUT THE REASON WHY. JPG PLS. I didn't think about the lossy
+% compression which happens when saving stuff via jpeg. Wasn't the code's
+% fault but the Quantization method that occurs when MATLAB saves the
+% image. "Bug" fixed by just saving it as PNG/BMP - :D Each pixel comes out
+% exactly the same as when I changed it in the code! 
+
+imwrite(newImage, 'testing.png'); %saves the new encoding image into current folder of the code
 
