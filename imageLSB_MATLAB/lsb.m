@@ -79,6 +79,8 @@ R = originalImage(:, :, 1);
 G = originalImage(:, :, 2);
 B = originalImage(:, :, 3);
 
+% NOTE: When you pass variables into MATLAB functions the values do not change
+% from where it's called. Has to be set = to in caller. (for eLSB.m)
 for rowChannel = 1:height
     for columnChannel = 1:width %horizontal replacement
         %Could probably put these in different functions :P but just so
